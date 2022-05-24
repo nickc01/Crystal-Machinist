@@ -5,6 +5,20 @@ using UnityEngine;
 [ExecuteAlways]
 public class ConveyorRail : MonoBehaviour
 {
+    [SerializeField]
+    Color _color;
+
+    public Color Color
+    {
+        get => _color;
+        set
+        {
+            _color = value;
+            UpdateColor(value);
+        }
+    }
+
+
     [field: SerializeField]
     public float Speed { get; set; } = 10.0f;
 
@@ -34,6 +48,7 @@ public class ConveyorRail : MonoBehaviour
     int offsetYID;
     int scaleXID;
     int scaleYID;
+    int beltColorID;
 
     private void Start()
     {
@@ -47,9 +62,26 @@ public class ConveyorRail : MonoBehaviour
 
         scaleXID = Shader.PropertyToID("_ConveyorScaleX");
         scaleYID = Shader.PropertyToID("_ConveyorScaleY");
+        beltColorID = Shader.PropertyToID("_RendererColor");
 
         Renderer.GetPropertyBlock(materialSetter);
         UpdatePPUScale();
+    }
+
+    private void OnValidate()
+    {
+        UpdateColor(_color);
+    }
+
+    void UpdateColor(Color color)
+    {
+        if (materialSetter == null)
+        {
+            Start();
+        }
+        Renderer.GetPropertyBlock(materialSetter);
+        materialSetter.SetColor(beltColorID, _color);
+        Renderer.SetPropertyBlock(materialSetter);
     }
 
     private void Update()

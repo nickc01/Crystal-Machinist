@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: Arm Animations
+  m_EditorClassIdentifier: 
+  clipNames:
+  - Arm Antic
+  - Arm Loop
+  - Arm End
+  clipFrameStartIndexes: 000000000200000004000000
+  clipFrameCounts: 020000000200000002000000
+  frames:
+  - {fileID: -5667050243351212951, guid: 4f7c5e92c9e3eba44aa68ba687d5feed, type: 3}
+  - {fileID: 1205680697689628192, guid: 4f7c5e92c9e3eba44aa68ba687d5feed, type: 3}
+  - {fileID: 1551288078501649722, guid: 4f7c5e92c9e3eba44aa68ba687d5feed, type: 3}
+  - {fileID: 3459260442886866522, guid: 4f7c5e92c9e3eba44aa68ba687d5feed, type: 3}
+  - {fileID: 1205680697689628192, guid: 4f7c5e92c9e3eba44aa68ba687d5feed, type: 3}
+  - {fileID: -5667050243351212951, guid: 4f7c5e92c9e3eba44aa68ba687d5feed, type: 3}
+  clipFPSs:
+  - 12
+  - 12
+  - 12
+  clipWrapModes: 000000000100000000000000
+  clipLoopStarts: 000000000000000000000000

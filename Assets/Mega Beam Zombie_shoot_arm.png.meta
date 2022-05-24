@@ -1,0 +1,396 @@
+fileFormatVersion: 2
+guid: 4f7c5e92c9e3eba44aa68ba687d5feed
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9021268509462861815
+    second: death0000
+  - first:
+      213: -1270462005103142848
+    second: death0001
+  - first:
+      213: 4696947349818204595
+    second: death0002
+  - first:
+      213: -3458738807932978201
+    second: death0003
+  - first:
+      213: -7564402192656998371
+    second: death0004
+  - first:
+      213: -1664932683200142053
+    second: death0005
+  - first:
+      213: 1138995811535745283
+    second: death0006
+  - first:
+      213: -3995792331380101352
+    second: evade0000
+  - first:
+      213: 1489752819701436044
+    second: evade0001
+  - first:
+      213: -4937240786676078926
+    second: evade0002
+  - first:
+      213: -8090722602994843282
+    second: evade0003
+  - first:
+      213: 5462055754752758316
+    second: evade0004
+  - first:
+      213: -6879022994772740717
+    second: evade0005
+  - first:
+      213: -3017419281794174750
+    second: idle0000
+  - first:
+      213: 3217644904375712336
+    second: idle0001
+  - first:
+      213: 6807293321393954518
+    second: idle0002
+  - first:
+      213: 4901205273184605283
+    second: idle0003
+  - first:
+      213: 987604584135355787
+    second: idle0004
+  - first:
+      213: -2847304628930026544
+    second: idle0005
+  - first:
+      213: -1981523677683816424
+    second: rest_to_wake0000
+  - first:
+      213: 6110429147667802755
+    second: rest_to_wake0001
+  - first:
+      213: 194161687480997013
+    second: rest_to_wake0002
+  - first:
+      213: 8514109332316904689
+    second: rest_to_wake0003
+  - first:
+      213: -960749180043436159
+    second: rest_to_wake0004
+  - first:
+      213: 4815205917708041524
+    second: roar0000
+  - first:
+      213: -9006834066677344951
+    second: roar0001
+  - first:
+      213: 80185564367236094
+    second: roar0002
+  - first:
+      213: 3125568665155835073
+    second: roar0003
+  - first:
+      213: -3540134838308195764
+    second: roar0004
+  - first:
+      213: 7319737683187132998
+    second: run0000
+  - first:
+      213: 6688780661324505807
+    second: run0001
+  - first:
+      213: 4601007091923989808
+    second: run0002
+  - first:
+      213: -3624693819535147726
+    second: run0003
+  - first:
+      213: -8269450898201501281
+    second: run0004
+  - first:
+      213: -8360336991673969159
+    second: run0005
+  - first:
+      213: 5600819255388843951
+    second: shoot0000
+  - first:
+      213: -5667050243351212951
+    second: shoot0001
+  - first:
+      213: 1205680697689628192
+    second: shoot0002
+  - first:
+      213: 1551288078501649722
+    second: shoot0003
+  - first:
+      213: 3459260442886866522
+    second: shoot0004
+  - first:
+      213: 4725897834479010015
+    second: shoot_up0000
+  - first:
+      213: -3265355662968448798
+    second: shoot_up0001
+  - first:
+      213: 6330724245392217286
+    second: shoot_up0002
+  - first:
+      213: 3977946155913793733
+    second: shoot_up0003
+  - first:
+      213: -1892665118455411781
+    second: shoot_up0004
+  - first:
+      213: -7590163569726617414
+    second: turn0000
+  - first:
+      213: 6994470744049181109
+    second: turn0001
+  - first:
+      213: 4318970583622316903
+    second: evade0006
+  - first:
+      213: -1058908633510566691
+    second: evade0007
+  - first:
+      213: 9189840740452815784
+    second: death_to_escape00011
+  - first:
+      213: 6569623796416255773
+    second: death_to_escape00001
+  - first:
+      213: -610424004098579171
+    second: death_to_escape00003
+  - first:
+      213: -4081818287734996091
+    second: death_to_escape00002
+  - first:
+      213: -3596797199468326168
+    second: death_to_escape00007
+  - first:
+      213: 1368286203532312205
+    second: death_to_escape00006
+  - first:
+      213: -8741225769225401605
+    second: big_roar0001
+  - first:
+      213: 8311832985732486783
+    second: death_to_escape00004
+  - first:
+      213: 1096219028808142919
+    second: death_to_escape00005
+  - first:
+      213: 6058448942676819611
+    second: big_roar0002
+  - first:
+      213: -1393076309674057935
+    second: death_to_escape00000
+  - first:
+      213: 1474795881953374937
+    second: big_roar0003
+  - first:
+      213: 4980649018044053507
+    second: big_roar0000
+  - first:
+      213: 2749993018855854229
+    second: big_roar0005
+  - first:
+      213: 8676976332080300438
+    second: big_roar0004
+  - first:
+      213: 7848019813954953387
+    second: death_to_escape00008
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: shoot0000
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 274
+        width: 196
+        height: 265
+      alignment: 9
+      pivot: {x: 0.56632656, y: 0.4319544}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafae98307b1abd40800000000000000
+      internalID: 5600819255388843951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shoot0001
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 1070
+        width: 189
+        height: 237
+      alignment: 9
+      pivot: {x: 0.55026454, y: 0.4213342}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96c82c834d79a51b0800000000000000
+      internalID: -5667050243351212951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shoot0002
+      rect:
+        serializedVersion: 2
+        x: 1188
+        y: 0
+        width: 220
+        height: 265
+      alignment: 9
+      pivot: {x: 0.49999997, y: 0.4281807}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02ed552e4307bb010800000000000000
+      internalID: 1205680697689628192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shoot0003
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 0
+        width: 250
+        height: 274
+      alignment: 9
+      pivot: {x: 0.52, y: 0.3980196}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3d936fc948478510800000000000000
+      internalID: 1551288078501649722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shoot0004
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 0
+        width: 244
+        height: 274
+      alignment: 9
+      pivot: {x: 0.52459013, y: 0.3980196}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5605db7b03c10030800000000000000
+      internalID: 3459260442886866522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

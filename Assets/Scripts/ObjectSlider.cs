@@ -17,7 +17,7 @@ public class ObjectSlider : MonoBehaviour
 
     private void Awake()
     {
-        effector = GetComponent<SurfaceEffector2D>();
+        effector = GetComponentInParent<SurfaceEffector2D>();
     }
 
     // Update is called once per frame
@@ -111,8 +111,11 @@ public class ObjectSlider : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent<HeroController>(out var controller) && !players.Contains(controller))
         {
-            controller.SetConveyorSpeed(AdjustSpeed(effector.speed));
-            controller.cState.onConveyor = true;
+            if (enabled)
+            {
+                controller.SetConveyorSpeed(effector.speed);
+                controller.cState.onConveyor = true;
+            }
             players.Add(controller);
         }
     }
@@ -121,8 +124,11 @@ public class ObjectSlider : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<HeroController>(out var controller) && players.Contains(controller))
         {
-            controller.cState.onConveyor = false;
-            controller.cState.onConveyorV = false;
+            if (enabled)
+            {
+                controller.cState.onConveyor = false;
+                controller.cState.onConveyorV = false;
+            }
             players.Remove(controller);
         }
     }
@@ -131,7 +137,19 @@ public class ObjectSlider : MonoBehaviour
     {
         foreach (var player in players)
         {
-            player.SetConveyorSpeed(AdjustSpeed(effector.speed));
+            if (player.cState.hazardRespawning || player.cState.hazardDeath)
+            {
+                player.SetConveyorSpeed(0f);
+                player.cState.onConveyor = false;
+                player.cState.onConveyorV = false;
+                player.transform.position += new Vector3(effector.speed * Time.fixedDeltaTime, 0f);
+            }
+            else
+            {
+                player.cState.onConveyor = true;
+                player.cState.onConveyorV = true;
+                player.SetConveyorSpeed(effector.speed);
+            }
         }
     }
 

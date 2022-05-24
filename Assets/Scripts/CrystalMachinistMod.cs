@@ -1,8 +1,8 @@
 using WeaverCore;
 
-public class CrystalMachinist : WeaverMod
+public class CrystalMachinistMod : WeaverMod
 {
-    public CrystalMachinist() : base("Crystal Machinist") { }
+    public CrystalMachinistMod() : base("Crystal Machinist") { }
 
     public override string GetVersion()
     {
