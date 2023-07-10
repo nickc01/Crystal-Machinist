@@ -27,9 +27,19 @@ public class JumpMove : CrystalMachinistMove
     [SerializeField]
     Vector2 jumpRangeMinMax = new Vector2(16.72f, 40.01f);
 
+    public Vector2 JumpRange => jumpRangeMinMax;
+
+    public float JumpTime
+    {
+        get => jumpTime;
+        set => jumpTime = value;
+    }
+
     public bool OnGround => floorCollisions.Count > 0;
 
     public float DefaultJumpTime => jumpTime;
+
+    public bool LastJumpInterrupted { get; private set; } = false;
 
     private void Awake()
     {
@@ -41,21 +51,57 @@ public class JumpMove : CrystalMachinistMove
 
     public override IEnumerator DoMove()
     {
-        if (HeroController.instance.cState.spellQuake)
+        if (HeroController.instance.cState.freezeCharge)
         {
-            if (Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.x) < Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.y))
+            yield return InternalJump(Mathf.Clamp(Player.Player1.transform.position.x, jumpRangeMinMax.x, jumpRangeMinMax.y), jumpTime);
+        }
+        else if (HeroController.instance.cState.spellQuake)
+        {
+            yield return DefaultEmergencyJump();
+            /*if (Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.x) < Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.y))
             {
-                yield return JumpToPosition(jumpRangeMinMax.x, jumpTime);
+                yield return InternalJump(jumpRangeMinMax.y, jumpTime);
             }
             else
             {
-                yield return JumpToPosition(jumpRangeMinMax.y, jumpTime);
-            }
+                yield return InternalJump(jumpRangeMinMax.x, jumpTime);
+            }*/
         }
         else
         {
-            var jumpRangeX = UnityEngine.Random.Range(16.72f, 40.01f);
-            yield return JumpToPosition(jumpRangeX, jumpTime);
+            var jumpRangeX = UnityEngine.Random.Range(jumpRangeMinMax.x, jumpRangeMinMax.y);
+            yield return InternalJump(jumpRangeX, jumpTime);
+        }
+    }
+
+    public IEnumerator DefaultEmergencyJump()
+    {
+        if (Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.x) < Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.y))
+        {
+            yield return JumpToPosition(jumpRangeMinMax.y, jumpTime, interruptible: false);
+        }
+        else
+        {
+            yield return JumpToPosition(jumpRangeMinMax.x, jumpTime, interruptible: false);
+        }
+    }
+
+    IEnumerator InternalJump(float xPos, float time, float delay = 0.15f)
+    {
+        if (Mathf.Abs(xPos - transform.position.x) <= 0.1f)
+        {
+            /*if (delay > 0 && (!Boss.DoInstantDelay))
+            {
+                yield return Boss.DoIdle(delay);
+            }*/
+            yield break;
+        }
+
+        yield return JumpToPosition(xPos, time, delay, true);
+
+        if (LastJumpInterrupted)
+        {
+            yield return DefaultEmergencyJump();
         }
     }
 
@@ -66,13 +112,27 @@ public class JumpMove : CrystalMachinistMove
         Gizmos.DrawLine(transform.position, new Vector3(jumpRangeMinMax.y,transform.position.y,transform.position.z));
     }
 
-    public IEnumerator JumpToPosition(float xPos, float time, float delay = 0.15f)
+    public IEnumerator JumpToPosition(float xPos, float time, float delay = 0.15f, bool interruptible = true)
     {
-        return JumpToPosition(xPos,13.6f,time,delay);
+        return JumpToPosition(xPos,13.6f,time,delay, interruptible);
     }
 
-    public IEnumerator JumpToPosition(float xPos, float yPos, float time, float delay = 0.15f)
+    public IEnumerator JumpToPosition(float xPos, float yPos, float time, float delay = 0.15f, bool interruptible = true)
     {
+        LastJumpInterrupted = false;
+        /*if (Mathf.Abs(xPos - transform.position.x) <= 0.1f)
+        {
+            if (emergencyJump)
+            {
+                if (delay > 0 && (!Boss.DoInstantDelay))
+                {
+                    yield return Boss.DoIdle(delay);
+                }
+            }
+            yield break;
+        }*/
+        var prevHealth = Boss.HealthComponent.Health;
+
         if (!Boss.MainCollider.enabled)
         {
             Boss.RB.isKinematic = true;
@@ -135,12 +195,50 @@ public class JumpMove : CrystalMachinistMove
 
         WeaverAudio.PlayAtPoint(landSound, transform.position);
 
-        yield return Animator.PlayAnimationTillDone("Jump Land");
+        Animator.PlayAnimation("Jump Land");
 
-        if (delay > 0)
+        var landDuration = Animator.AnimationData.GetClipDuration("Jump Land");
+
+        for (float t = 0; t < landDuration; t += Time.deltaTime)
         {
-            yield return Boss.DoIdle(delay);
+            if (t > 0.1f && interruptible && Boss.HealthComponent.Health < prevHealth)
+            {
+                LastJumpInterrupted = true;
+                break;
+            }
         }
+
+        if (!LastJumpInterrupted)
+        {
+            if (delay > 0 && (!Boss.DoInstantDelay || Boss.HealthComponent.Health < prevHealth))
+            {
+                yield return Boss.DoIdle(delay);
+            }
+        }
+
+        /*if (interruptible && Boss.HealthComponent.Health < prevHealth)
+        {
+            Animator.PlayAnimation("Jump Land");
+            yield return new WaitForSeconds(0.1f);
+
+            if (Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.x) < Mathf.Abs(Player.Player1.transform.position.x - jumpRangeMinMax.y))
+            {
+                yield return JumpToPosition(jumpRangeMinMax.y, jumpTime, emergencyJump: true);
+            }
+            else
+            {
+                yield return JumpToPosition(jumpRangeMinMax.x, jumpTime, emergencyJump: true);
+            }
+        }
+        else
+        {
+            yield return Animator.PlayAnimationTillDone("Jump Land");
+
+            if (delay > 0 && (!Boss.DoInstantDelay || Boss.HealthComponent.Health < prevHealth))
+            {
+                yield return Boss.DoIdle(delay);
+            }
+        }*/
     }
 
     public void PlayLandDust()
@@ -148,7 +246,7 @@ public class JumpMove : CrystalMachinistMove
         landDust.Play();
     }
 
-    public IEnumerator JumpToPosition(float xPos) => JumpToPosition(xPos, jumpTime);
+    public IEnumerator JumpToPosition(float xPos, bool interruptible = true) => JumpToPosition(xPos, jumpTime, interruptible: interruptible);
 
     void OnCollisionEnter2D(Collision2D collision)
     {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaverCore;
 
 public class ObjectSlider : MonoBehaviour
 {
@@ -87,7 +88,6 @@ public class ObjectSlider : MonoBehaviour
     }*/
 
     HashSet<HeroController> players = new HashSet<HeroController>();
-
     /*private float SpeedCorrection(float originalSpeed)
     {
         return originalSpeed * (float)(1.05 + (17.13617 * Math.Pow(Math.E,-3.439027 * originalSpeed)));
@@ -113,8 +113,8 @@ public class ObjectSlider : MonoBehaviour
         {
             if (enabled)
             {
-                controller.SetConveyorSpeed(effector.speed);
-                controller.cState.onConveyor = true;
+                //controller.SetConveyorSpeed(effector.speed);
+                //controller.cState.onConveyor = true;
             }
             players.Add(controller);
         }
@@ -126,8 +126,8 @@ public class ObjectSlider : MonoBehaviour
         {
             if (enabled)
             {
-                controller.cState.onConveyor = false;
-                controller.cState.onConveyorV = false;
+                //controller.cState.onConveyor = false;
+                //controller.cState.onConveyorV = false;
             }
             players.Remove(controller);
         }
@@ -139,26 +139,37 @@ public class ObjectSlider : MonoBehaviour
         {
             if (player.cState.hazardRespawning || player.cState.hazardDeath)
             {
-                player.SetConveyorSpeed(0f);
-                player.cState.onConveyor = false;
-                player.cState.onConveyorV = false;
-                player.transform.position += new Vector3(effector.speed * Time.fixedDeltaTime, 0f);
+                //player.SetConveyorSpeed(0f);
+                //player.cState.onConveyor = false;
+                //player.cState.onConveyorV = false;
+                //player.transform.position += new Vector3(effector.speed * Time.fixedDeltaTime, 0f);
             }
             else
             {
-                player.cState.onConveyor = true;
-                player.cState.onConveyorV = true;
-                player.SetConveyorSpeed(effector.speed);
+                //player.cState.onConveyor = true;
+                //player.cState.onConveyorV = true;
+                //player.SetConveyorSpeed(effector.speed);
             }
+
+
+            player.transform.position += new Vector3(effector.speed * Time.fixedDeltaTime, 0f);
         }
     }
+
+    /*private void LateUpdate()
+    {
+        foreach (var player in players)
+        {
+            player.transform.position += new Vector3(effector.speed * Time.deltaTime, 0f);
+        }
+    }*/
 
     private void OnDestroy()
     {
         foreach (var player in players)
         {
-            player.cState.onConveyor = false;
-            player.cState.onConveyorV = false;
+            //player.cState.onConveyor = false;
+            //player.cState.onConveyorV = false;
         }
     }
 

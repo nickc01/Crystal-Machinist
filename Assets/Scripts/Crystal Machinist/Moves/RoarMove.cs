@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.XR;
 using WeaverCore;
 using WeaverCore.Utilities;
 
@@ -33,7 +35,12 @@ public class RoarMove : CrystalMachinistMove
     [SerializeField]
     Vector2 crystalXSpawnRangeMinMax = new Vector2(0f,0f);
 
+    [SerializeField]
+    List<Vector2> spawnZones;
+
     ParticleSystem crystalRain;
+
+    public float LastRoarTime { get; private set; } = 0f;
     //ParticleSystem landDust;
 
 
@@ -53,6 +60,12 @@ public class RoarMove : CrystalMachinistMove
         Gizmos.color = Color.red;
 
         Gizmos.DrawLine(transform.position.With(x: crystalXSpawnRangeMinMax.x) + Vector3.up, transform.position.With(x: crystalXSpawnRangeMinMax.y) + Vector3.up);
+
+        foreach (var zone in spawnZones)
+        {
+            Gizmos.DrawLine(new Vector3(zone.x, crystalSpawnHeight + 1f),new Vector3(zone.x,crystalSpawnHeight - 1f));
+            Gizmos.DrawLine(new Vector3(zone.y, crystalSpawnHeight + 1f),new Vector3(zone.y,crystalSpawnHeight - 1f));
+        }
     }
 
     IEnumerator SpawnCrystals()
@@ -65,6 +78,10 @@ public class RoarMove : CrystalMachinistMove
 
         yield return new WaitForSeconds(crystalSpawnDelay);
 
+        var zones = new List<Vector2>(spawnZones);
+
+        List<GameObject> spawnedCrystals = new List<GameObject>();
+
         for (int i = 0; i < spawnCount; i++)
         {
             var obj = Pooling.Instantiate(CrystalsToSpawn[UnityEngine.Random.Range(0,CrystalsToSpawn.Count)],default(Vector3),Quaternion.Euler(0f,0f,UnityEngine.Random.Range(0f,360f)));
@@ -72,19 +89,71 @@ public class RoarMove : CrystalMachinistMove
             collider.enabled = false;
             obj.GetComponent<CrystalDropping>().Boss = Boss;
 
+
+
             obj.transform.position = new Vector3(UnityEngine.Random.Range(crystalXSpawnRangeMinMax.x, crystalXSpawnRangeMinMax.y),crystalSpawnHeight);
 
-            yield return new WaitForSeconds(crystalSpawnRate);
+            var zone = zones.GetRandomElement();
+            zones.Remove(zone);
+
+            if (obj.transform.position.x > zone.y)
+            {
+                obj.transform.SetPositionX(zone.y);
+            }
+
+            if (obj.transform.position.x < zone.x)
+            {
+                obj.transform.SetPositionX(zone.x);
+            }
+
+            spawnedCrystals.Add(obj);
+
+            if (i > 0)
+            {
+                obj.SetActive(false);
+                StartCoroutine(EnableAfter(obj, crystalSpawnRate * i));
+            }
+
+            //yield return new WaitForSeconds(crystalSpawnRate);
         }
+
+        var nearest = spawnedCrystals.OrderBy(g => Vector3.Distance(g.transform.position, Player.Player1.transform.position)).FirstOrDefault();
+
+        if (nearest != null)
+        {
+            nearest.transform.SetPositionX(Player.Player1.transform.position.x);
+
+            if (nearest.transform.position.x > crystalXSpawnRangeMinMax.y)
+            {
+                nearest.transform.SetPositionX(crystalXSpawnRangeMinMax.y);
+            }
+
+            if (nearest.transform.position.x < crystalXSpawnRangeMinMax.x)
+            {
+                nearest.transform.SetPositionX(crystalXSpawnRangeMinMax.x);
+            }
+        }
+    }
+
+    IEnumerator EnableAfter(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        obj.SetActive(true);
     }
 
     public override IEnumerator DoMove()
     {
-        return Roar(true,true);
+        if (Time.time < LastRoarTime + 3f)
+        {
+            yield break;
+        }
+        yield return Roar(true,true);
     }
 
     public IEnumerator Roar(bool spawnCrystals, bool bigRoar)
     {
+        LastRoarTime = Time.time;
+        Boss.LastMoveRoar = true;
         Animator.PlayAnimation("Roar Start");
 
         /*if (shotLaser)
@@ -113,9 +182,9 @@ public class RoarMove : CrystalMachinistMove
         }
         //crystalRain.Play();
 
-        float previousHealth = Boss.Health.Health;
+        float previousHealth = Boss.HealthComponent.Health;
 
-        for (float t = 0; t < roarTime / (1f + ((previousHealth - Boss.Health.Health) / 50f)); t += Time.deltaTime)
+        for (float t = 0; t < roarTime / (1f + ((previousHealth - Boss.HealthComponent.Health) / 50f)); t += Time.deltaTime)
         {
             yield return null;
         }

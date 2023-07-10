@@ -1,0 +1,624 @@
+fileFormatVersion: 2
+guid: fad06632a27ac0246963e21e15cb6414
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3755407027089756501
+    second: attack0000
+  - first:
+      213: 2579345834380941993
+    second: attack0001
+  - first:
+      213: -8266258659045075217
+    second: attack0002
+  - first:
+      213: 3837194761112967626
+    second: attack0003
+  - first:
+      213: 474407109339162347
+    second: attack0004
+  - first:
+      213: 9021268509462861815
+    second: death0000
+  - first:
+      213: -1270462005103142848
+    second: death0001
+  - first:
+      213: 4696947349818204595
+    second: death0002
+  - first:
+      213: -2291912409947900
+    second: fly0000
+  - first:
+      213: 5534614647192728886
+    second: fly0001
+  - first:
+      213: 3476258773985572337
+    second: fly0002
+  - first:
+      213: 6741157815145070689
+    second: fly0003
+  - first:
+      213: -7590163569726617414
+    second: turn0000
+  - first:
+      213: 6994470744049181109
+    second: turn0001
+  - first:
+      213: -8194960209251497479
+    second: crystal_shot
+  - first:
+      213: 3833583286363964298
+    second: crystal_grow0000
+  - first:
+      213: -1633121792413796354
+    second: crystal_grow0001
+  - first:
+      213: 2425272191463149351
+    second: crystal_grow0002
+  - first:
+      213: 8510779883060433660
+    second: crystal_grow0003
+  - first:
+      213: 7551146481925868785
+    second: crystal_grow0004
+  - first:
+      213: 7446688706051114061
+    second: crystal_grow0005
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 100
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 100
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 100
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: attack0000
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 428
+        width: 148
+        height: 187
+      alignment: 9
+      pivot: {x: 0.4256757, y: 0.4117647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 551d0bc4bc2ed1430800000000000000
+      internalID: 3755407027089756501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: attack0001
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 232
+        width: 150
+        height: 179
+      alignment: 9
+      pivot: {x: 0.43999997, y: 0.38547486}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9aad823de5dabc320800000000000000
+      internalID: 2579345834380941993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: attack0002
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 232
+        width: 139
+        height: 172
+      alignment: 9
+      pivot: {x: 0.44604316, y: 0.3604651}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe61f1ecb89584d80800000000000000
+      internalID: -8266258659045075217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: attack0003
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 232
+        width: 142
+        height: 172
+      alignment: 9
+      pivot: {x: 0.45774648, y: 0.3604651}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac9d02e0e44704530800000000000000
+      internalID: 3837194761112967626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: attack0004
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 729
+        width: 144
+        height: 205
+      alignment: 9
+      pivot: {x: 0.4375, y: 0.5121951}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be6a41f90ce659600800000000000000
+      internalID: 474407109339162347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death0000
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 729
+        width: 90
+        height: 110
+      alignment: 9
+      pivot: {x: 0.57777774, y: 0.5090909}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f793f1a9ebf13d70800000000000000
+      internalID: 9021268509462861815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death0001
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 839
+        width: 98
+        height: 100
+      alignment: 9
+      pivot: {x: 0.47959185, y: 0.49999997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 048523d99896e5ee0800000000000000
+      internalID: -1270462005103142848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death0002
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 934
+        width: 84
+        height: 66
+      alignment: 9
+      pivot: {x: 0.54761904, y: 0.6212121}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b160aaaab8ee2140800000000000000
+      internalID: 4696947349818204595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fly0000
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 615
+        width: 133
+        height: 205
+      alignment: 9
+      pivot: {x: 0.37593985, y: 0.46829268}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 401e2fe848bd7fff0800000000000000
+      internalID: -2291912409947900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fly0001
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 611
+        width: 122
+        height: 205
+      alignment: 9
+      pivot: {x: 0.4344262, y: 0.48780486}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 635b89ea2b6eecc40800000000000000
+      internalID: 5534614647192728886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fly0002
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 820
+        width: 134
+        height: 200
+      alignment: 9
+      pivot: {x: 0.38059703, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f5bebadfe62e3030800000000000000
+      internalID: 3476258773985572337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fly0003
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 411
+        width: 126
+        height: 200
+      alignment: 9
+      pivot: {x: 0.43650797, y: 0.465}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 160029211576d8d50800000000000000
+      internalID: 6741157815145070689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turn0000
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 232
+        width: 148
+        height: 196
+      alignment: 9
+      pivot: {x: 0.4391892, y: 0.46938774}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab8855f92725aa690800000000000000
+      internalID: -7590163569726617414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turn0001
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 0
+        width: 155
+        height: 206
+      alignment: 9
+      pivot: {x: 0.5419355, y: 0.4854369}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b1e9ea551a511160800000000000000
+      internalID: 6994470744049181109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crystal_shot
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 0
+        width: 49
+        height: 158
+      alignment: 9
+      pivot: {x: 0.48979592, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f98a13cb17a54e80800000000000000
+      internalID: -8194960209251497479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crystal_grow0000
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 232
+        width: 154
+        height: 165
+      alignment: 9
+      pivot: {x: 0.41558444, y: 0.53333336}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a83499010bf933530800000000000000
+      internalID: 3833583286363964298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crystal_grow0001
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 0
+        width: 249
+        height: 179
+      alignment: 9
+      pivot: {x: 0.3574297, y: 0.53072625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef7f938e16cf559e0800000000000000
+      internalID: -1633121792413796354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crystal_grow0002
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 471
+        width: 240
+        height: 258
+      alignment: 9
+      pivot: {x: 0.3875, y: 0.48837212}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72f4bcf553c48a120800000000000000
+      internalID: 2425272191463149351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crystal_grow0003
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 232
+        width: 262
+        height: 239
+      alignment: 9
+      pivot: {x: 0.45801526, y: 0.50209206}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf29b5b263d5c1670800000000000000
+      internalID: 8510779883060433660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crystal_grow0004
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 272
+        height: 232
+      alignment: 9
+      pivot: {x: 0.4963235, y: 0.5043103}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fcc126b7bf0bc860800000000000000
+      internalID: 7551146481925868785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crystal_grow0005
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 0
+        width: 280
+        height: 219
+      alignment: 9
+      pivot: {x: 0.45, y: 0.4657534}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4407158ce3f75760800000000000000
+      internalID: 7446688706051114061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

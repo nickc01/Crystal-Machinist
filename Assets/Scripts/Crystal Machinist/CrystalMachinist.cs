@@ -115,9 +115,45 @@ public class CrystalMachinist : Boss
     [Tooltip("The conveyor belt speed that is applied when the next phase begins")]
     public float conveyorBeltSpeed = 5f;
 
+    [Tooltip("The conveyor belt speed that is applied when the next phase begins")]
+    public float conveyorBeltSpeedPhase2 = 7.5f;
+
+    [SerializeField]
+    Vector2 conveyorBeltFlipTimeRange = new Vector2(6f,12f);
+
+    [SerializeField]
+    float conveyorBeltSwitchDuration = 0.85f;
+
+    [Space]
+    [Header("Hard Mode")]
+    [SerializeField]
+    bool forceHardMode = false;
+
+    [SerializeField]
+    float hardModeGravityScale = 4.0f;
+
+    [SerializeField]
+    float hardModeJumpTime = 0.5f;
+
+    [SerializeField]
+    float hardModeCrystalShotDelay = 0.3f;
+
+    bool previouslyHit = false;
+
+    public bool DoInstantDelay => HeroController.instance.cState.spellQuake || HeroController.instance.cState.casting || HeroController.instance.cState.freezeCharge;
+
+    public bool HasBeenPreviouslyHit()
+    {
+        if (previouslyHit)
+        {
+            previouslyHit = false;
+            return true;
+        }
+        return false;
+    }
+
     protected override void Awake()
     {
-        //ConveyorBelt = 
         base.Awake();
         deathCollider.enabled = false;
         flasher = GetComponent<SpriteFlasher>();
@@ -125,20 +161,28 @@ public class CrystalMachinist : Boss
         switch (Boss.Difficulty)
         {
             case WeaverCore.Enums.BossDifficulty.Attuned:
-                Health.Health = attunedHealth;
+                HealthComponent.Health = attunedHealth;
                 break;
             case WeaverCore.Enums.BossDifficulty.Ascended:
-                Health.Health = ascendedHealth;
+                HealthComponent.Health = ascendedHealth;
                 break;
             default:
-                Health.Health = radiantHealth;
+                HealthComponent.Health = radiantHealth;
                 break;
         }
 
-        AddStunMilestone((int)(Health.Health * firstStunMilestone));
-        AddStunMilestone((int)(Health.Health * secondStunMilestone));
+        AddStunMilestone((int)(HealthComponent.Health * firstStunMilestone));
+        AddStunMilestone((int)(HealthComponent.Health * secondStunMilestone));
+
+        if (forceHardMode || Boss.Difficulty >= BossDifficulty.Ascended || BossSequenceController.IsInSequence)
+        {
+            RB.gravityScale = hardModeGravityScale;
+            GetComponent<JumpMove>().JumpTime = hardModeJumpTime;
+            GetComponent<CrystalShotMove>().FireDelay = hardModeCrystalShotDelay;
+        }
 
         StartBoundRoutine(StartupRoutine());
+        StartBoundRoutine(DoConveyorBeltFlip());
     }
 
     public bool FacingRight => MainRenderer.flipX;
@@ -149,17 +193,28 @@ public class CrystalMachinist : Boss
 
     public bool DoStompersNext { get; private set; } = false;
 
+    public bool LastMoveRoar { get; set; } = false;
+
+    IEnumerator DoConveyorBeltFlip()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(conveyorBeltFlipTimeRange.RandomInRange());
+            ConveyorBelt.SwitchDirection(true, conveyorBeltSwitchDuration);
+        }
+    }
+
     IEnumerator StartupRoutine()
     {
-        Health.Invincible = true;
+        HealthComponent.Invincible = true;
         TurnTowardsPlayerInstant();
         Animator.PlayAnimation("Idle");
         yield return new WaitForSeconds(1f);
 
         FloorY = transform.position.y;
 
-        Health.Invincible = false;
-        var title = AreaTitle.Spawn("Crystal", "Machinist");
+        HealthComponent.Invincible = false;
+        var title = WeaverBossTitle.Spawn("Crystal", "Machinist");
         title.Position = WeaverCore.Enums.AreaTitlePosition.BottomRight;
 
         Music.ApplyMusicSnapshot(Music.SnapshotType.Action, 0f, 1f);
@@ -197,12 +252,75 @@ public class CrystalMachinist : Boss
 
         var stomperMove = GetComponent<StomperMove>();
 
+        var laserMove = GetComponent<LaserMove>();
+
+        var jumpMove = GetComponent<JumpMove>();
+
+        var crystalShotMove = GetComponent<CrystalShotMove>();
+
+        bool doSmartMove = false;
+
         while (true)
         {
             if (DoStompersNext)
             {
                 DoStompersNext = false;
                 yield return RunMove(stomperMove);
+                StartBoundRoutine(DoConveyorBeltFlip());
+                doSmartMove = true;
+            }
+            else
+            {
+                doSmartMove = UnityEngine.Random.Range(0f,1f) >= 0.75f;
+            }
+
+            if (doSmartMove)
+            {
+                if (HeroController.instance.cState.onGround && Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) <= 4f)
+                {
+                    yield return RunMove(crystalShotMove);
+                    continue;
+                }
+
+                if (HeroController.instance.cState.spellQuake)
+                {
+                    if (Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) > 8f)
+                    {
+                        yield return RunMove(laserMove);
+                        continue;
+                    }
+                    else
+                    {
+                        yield return RunMove(jumpMove);
+                        continue;
+                    }
+                }
+
+                if (HeroController.instance.cState.casting)
+                {
+                    yield return RunMove(laserMove);
+                    continue;
+                }
+
+                if (HeroController.instance.cState.freezeCharge)
+                {
+                    if (UnityEngine.Random.Range(0f, 1f) >= 0.5f)
+                    {
+                        yield return RunMove(jumpMove);
+                        continue;
+                    }
+                    else
+                    {
+                        yield return RunMove(laserMove);
+                        continue;
+                    }
+                }
+
+                if (Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) > 10f)
+                {
+                    yield return RunMove(laserMove);
+                    continue;
+                }
             }
 
             moves.RandomizeList();
@@ -218,6 +336,15 @@ public class CrystalMachinist : Boss
                 yield return TurnTowardsPlayer();
                 if (moves[i].MoveEnabled)
                 {
+                    if (moves[i] == roarMove && LastMoveRoar)
+                    {
+                        LastMoveRoar = false;
+                        continue;
+                    }
+                    else
+                    {
+                        LastMoveRoar = false;
+                    }
                     yield return RunMove(moves[i]);
                 }
             }
@@ -248,6 +375,12 @@ public class CrystalMachinist : Boss
         }
     }
 
+    public IEnumerator TurnAround()
+    {
+        yield return Animator.PlayAnimationTillDone("Turn");
+        MainRenderer.flipX = !MainRenderer.flipX;
+    }
+
     public IEnumerator DoIdle(float duration)
     {
         Animator.PlayAnimation("Idle");
@@ -276,6 +409,11 @@ public class CrystalMachinist : Boss
 
     IEnumerator DeathRoutine()
     {
+        for (int i = CrystalDropping.SpawnedDroppings.Count - 1; i >= 0; i--)
+        {
+            CrystalDropping.SpawnedDroppings[i].FadeOut();
+        }
+
         MainCollider.enabled = false;
         deathCollider.enabled = true;
         Animator.PlayAnimation("Death Stun");
@@ -365,11 +503,11 @@ public class CrystalMachinist : Boss
 
         var playerPos = Player.Player1.transform.position;
 
-        if (Health.LastAttackDirection == CardinalDirection.Left)
+        if (HealthComponent.LastAttackDirection == CardinalDirection.Left)
         {
             newVelocity = newVelocity.With(x: -stunVelocity.x);
         }
-        else if (Health.LastAttackDirection == CardinalDirection.Up || Health.LastAttackDirection == CardinalDirection.Down)
+        else if (HealthComponent.LastAttackDirection == CardinalDirection.Up || HealthComponent.LastAttackDirection == CardinalDirection.Down)
         {
             if (playerPos.x >= transform.position.x)
             {
@@ -411,11 +549,11 @@ public class CrystalMachinist : Boss
 
         WeaverAudio.PlayAtPoint(stunLandSound, transform.position);
 
-        var currentHealth = Health.Health;
+        var currentHealth = HealthComponent.Health;
 
         for (float t = 0; t < stunTime; t += Time.deltaTime)
         {
-            if (Health.Health < currentHealth)
+            if (HealthComponent.Health < currentHealth)
             {
                 break;
             }
@@ -424,9 +562,34 @@ public class CrystalMachinist : Boss
 
         RB.gravityScale = oldScale;
 
-        yield return Animator.PlayAnimationTillDone("Stun Awake");
+        //yield return Animator.PlayAnimationTillDone("Stun Awake");
 
-        yield return new WaitForSeconds(stunAwakeTime);
+        var stunAwakeDuration = Animator.AnimationData.GetClipDuration("Stun Awake");
+
+        Animator.PlayAnimation("Stun Awake");
+
+        currentHealth = HealthComponent.Health;
+
+        for (float t = 0; t < stunAwakeDuration; t += Time.deltaTime)
+        {
+            if (currentHealth < HealthComponent.Health)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        currentHealth = HealthComponent.Health;
+
+        for (float t = 0; t < stunAwakeTime; t += Time.deltaTime)
+        {
+            if (currentHealth < HealthComponent.Health)
+            {
+                break;
+            }
+            yield return null;
+        }
+        //yield return new WaitForSeconds(stunAwakeTime);
 
         DoStompersNext = true;
 

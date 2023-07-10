@@ -7,7 +7,7 @@ using WeaverCore.Utilities;
 
 public class LaserMove : CrystalMachinistMove
 {
-    public override bool MoveEnabled => !HeroController.instance.cState.spellQuake || (HeroController.instance.cState.spellQuake && Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) > 8f);
+    public override bool MoveEnabled => Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) > 8f/*(HeroController.instance.cState.spellQuake && Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) > 8f)*/;
 
     [SerializeField]
     Transform arm;
@@ -53,6 +53,8 @@ public class LaserMove : CrystalMachinistMove
     JumpMove jumpMove;
     bool jumping = false;
 
+    public SpriteRenderer ArmRenderer => armRenderer;
+
     private void Awake()
     {
         jumpMove = GetComponent<JumpMove>();
@@ -81,11 +83,18 @@ public class LaserMove : CrystalMachinistMove
     {
         var playerPos = Player.Player1.transform.position;
 
+        bool jumpInterrupted = false;
+
         jumping = true;
         if (UnityEngine.Random.Range(0,2) == 1)
         {
-            yield return jumpMove.JumpToPosition(playerPos.x, jumpMove.DefaultJumpTime, 0f);
-            
+            yield return jumpMove.JumpToPosition(playerPos.x, jumpMove.DefaultJumpTime, 0f, true);
+
+            if (jumpMove.LastJumpInterrupted)
+            {
+                jumpInterrupted = true;
+                yield return jumpMove.DefaultEmergencyJump();
+            }
         }
 
         float farthestTarget = 0f;
@@ -102,19 +111,17 @@ public class LaserMove : CrystalMachinistMove
             nearestTarget = leftJumpTarget;
         }
 
-        yield return jumpMove.JumpToPosition(farthestTarget, jumpMove.DefaultJumpTime, 0f);
+        if (!jumpInterrupted && !(Mathf.Abs(jumpMove.JumpRange.x - transform.position.x) < 0.1f || Mathf.Abs(jumpMove.JumpRange.y - transform.position.x) < 0.1f))
+        {
+            yield return jumpMove.JumpToPosition(farthestTarget, jumpMove.DefaultJumpTime, 0f, false);
+        }
 
         yield return Boss.TurnTowardsPlayer();
         jumping = false;
     }
 
-    public override IEnumerator DoMove()
+    public IEnumerator PrepareLaserStance()
     {
-        if (Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) <= jumpThreshold)
-        {
-            yield return JumpToCorner();
-        }
-
         flipScaler.SetScaleX(Boss.FacingRight ? -1 : 1);
 
         var anticClip = Boss.Animator.AnimationData.GetClip("Shoot Antic 2");
@@ -130,6 +137,102 @@ public class LaserMove : CrystalMachinistMove
 
         armAnimator.PlayAnimation("Arm Loop");
         Boss.Animator.PlayAnimation("Shoot Loop");
+    }
+
+
+
+    /*public IEnumerator AimLaser(float duration)
+    {
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            var playerAngle = Mathf.Clamp(GetAngleToPlayer(), angleRange.x, angleRange.y);
+
+            var actualSpeed = speed;
+
+            var playerPos = Player.Player1.transform.position;
+
+            var distanceToPlayer = Vector2.Distance(transform.position, playerPos);
+
+            if (distanceToPlayer < 2f)
+            {
+                actualSpeed += (2f - distanceToPlayer) * 2f;
+            }
+
+
+            SetEntireRotation(Mathf.LerpAngle(GetEntireRotation(), playerAngle, actualSpeed * Time.deltaTime));
+
+            if (t >= emitter.ChargeUpDuration + Mathf.Clamp(0.2f, 0.1f, emitter.FireDuration))
+            {
+                if (HeroController.instance.cState.spellQuake || (Boss.FacingRight && !Boss.PlayerRightOfBoss) || (!Boss.FacingRight && Boss.PlayerRightOfBoss) || (Mathf.Abs(playerPos.x - transform.position.x) < 2.5f && playerPos.y - transform.position.y >= 2f))
+                {
+                    emitter.StopLaser();
+                    StopLoopSound();
+                    yield return new WaitForSeconds(emitter.EndDuration);
+                    break;
+                }
+            }
+
+            yield return null;
+        }
+    }*/
+
+    public void EndLaserStanceQuick()
+    {
+        armRenderer.enabled = false;
+    }
+
+    public IEnumerator EndLaserStance()
+    {
+        var anticClip = Boss.Animator.AnimationData.GetClip("Shoot Antic 2");
+
+        armAnimator.PlayAnimation("Arm End");
+        Boss.Animator.PlayAnimation("Shoot End 2");
+
+        var endClip = Boss.Animator.AnimationData.GetClip("Shoot End 2");
+
+        var currentRotation = GetEntireRotation();
+        var destRotation = 0f;
+
+        for (int i = 1; i <= endClip.Frames.Count; i++)
+        {
+            SetEntireRotation(Mathf.Lerp(currentRotation, destRotation, i / (float)endClip.Frames.Count));
+
+            if (i != endClip.Frames.Count)
+            {
+                yield return new WaitForSeconds(1f / endClip.FPS);
+            }
+        }
+
+        armRenderer.enabled = false;
+
+        Boss.MainRenderer.sprite = defaultSprite;
+        //yield return new WaitForSeconds(1f / anticClip.FPS);
+    }
+
+    public override IEnumerator DoMove()
+    {
+        if (Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) <= jumpThreshold)
+        {
+            yield return JumpToCorner();
+        }
+
+        yield return PrepareLaserStance();
+
+        /*flipScaler.SetScaleX(Boss.FacingRight ? -1 : 1);
+
+        var anticClip = Boss.Animator.AnimationData.GetClip("Shoot Antic 2");
+
+        Boss.MainRenderer.sprite = defaultSprite;
+        yield return new WaitForSeconds(1f / anticClip.FPS);
+
+        SetEntireRotation(0f);
+        armRenderer.enabled = true;
+
+        armAnimator.PlayAnimation("Arm Antic");
+        yield return Boss.Animator.PlayAnimationTillDone("Shoot Antic 2");
+
+        armAnimator.PlayAnimation("Arm Loop");
+        Boss.Animator.PlayAnimation("Shoot Loop");*/
 
         float speed = movementSpeed;
 
@@ -174,7 +277,8 @@ public class LaserMove : CrystalMachinistMove
             }
 
 
-            SetEntireRotation(Mathf.LerpAngle(GetEntireRotation(), playerAngle, actualSpeed * Time.deltaTime));
+            //SetEntireRotation(Mathf.LerpAngle(GetEntireRotation(), playerAngle, actualSpeed * Time.deltaTime));
+            ArmRotation = Mathf.LerpAngle(ArmRotation, playerAngle, actualSpeed * Time.deltaTime);
 
             if (t >= emitter.ChargeUpDuration + Mathf.Clamp(0.2f,0.1f,emitter.FireDuration))
             {
@@ -190,7 +294,8 @@ public class LaserMove : CrystalMachinistMove
             yield return null;
         }
 
-        armAnimator.PlayAnimation("Arm End");
+        yield return EndLaserStance();
+        /*armAnimator.PlayAnimation("Arm End");
         Boss.Animator.PlayAnimation("Shoot End 2");
 
         var endClip = Boss.Animator.AnimationData.GetClip("Shoot End 2");
@@ -207,7 +312,7 @@ public class LaserMove : CrystalMachinistMove
         armRenderer.enabled = false;
 
         Boss.MainRenderer.sprite = defaultSprite;
-        yield return new WaitForSeconds(1f / anticClip.FPS);
+        yield return new WaitForSeconds(1f / anticClip.FPS);*/
 
         /*for (float t = 0; t < clipDuration; t += Time.deltaTime)
         {
@@ -269,9 +374,10 @@ public class LaserMove : CrystalMachinistMove
         return ClampRotation(emitter.transform.localEulerAngles.z);
     }
 
-    float GetAngleToPlayer()
-    {
+    public Transform EmitterTransform => emitter.transform;
 
+    public float GetAngleToPlayer()
+    {
         return Vector2.Dot(Vector2.down * 90f, (Player.Player1.transform.position - emitter.transform.position).normalized);
     }
 
@@ -284,5 +390,11 @@ public class LaserMove : CrystalMachinistMove
     float GetEntireRotation()
     {
         return GetArmRotation() + GetLaserRotation();
+    }
+
+    public float ArmRotation
+    {
+        get => GetEntireRotation();
+        set => SetEntireRotation(value);
     }
 }

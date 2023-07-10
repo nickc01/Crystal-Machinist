@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: Mines Flier Animations
+  m_EditorClassIdentifier: 
+  clipNames:
+  - Attack
+  - Death Air
+  - Fly
+  - Turn To Fly
+  - Death Land
+  - Attack Recover
+  - Crystal Grow
+  - Crystal Smash
+  clipFrameStartIndexes: 0000000004000000070000000b00000011000000120000001300000018000000
+  clipFrameCounts: 0400000003000000040000000600000001000000010000000500000001000000
+  frames:
+  - {fileID: 3755407027089756501, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 2579345834380941993, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: -8266258659045075217, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 3837194761112967626, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 9021268509462861815, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: -1270462005103142848, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 4696947349818204595, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: -2291912409947900, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 5534614647192728886, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 3476258773985572337, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 6741157815145070689, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: -7590163569726617414, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 6994470744049181109, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: -2291912409947900, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 5534614647192728886, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 3476258773985572337, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 6741157815145070689, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 4696947349818204595, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 474407109339162347, guid: dc44bc318d2f4e04f98f662855f7d956, type: 3}
+  - {fileID: 3833583286363964298, guid: fad06632a27ac0246963e21e15cb6414, type: 3}
+  - {fileID: -1633121792413796354, guid: fad06632a27ac0246963e21e15cb6414, type: 3}
+  - {fileID: 2425272191463149351, guid: fad06632a27ac0246963e21e15cb6414, type: 3}
+  - {fileID: 8510779883060433660, guid: fad06632a27ac0246963e21e15cb6414, type: 3}
+  - {fileID: 7551146481925868785, guid: fad06632a27ac0246963e21e15cb6414, type: 3}
+  - {fileID: 7446688706051114061, guid: fad06632a27ac0246963e21e15cb6414, type: 3}
+  clipFPSs:
+  - 12
+  - 12
+  - 12
+  - 12
+  - 12
+  - 12
+  - 30
+  - 20
+  clipWrapModes: 0000000000000000010000000200000000000000000000000000000000000000
+  clipLoopStarts: 0000000000000000000000000200000000000000000000000000000000000000

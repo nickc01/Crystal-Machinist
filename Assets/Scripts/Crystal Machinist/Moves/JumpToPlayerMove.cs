@@ -3,7 +3,7 @@ using WeaverCore;
 
 public class JumpToPlayerMove : CrystalMachinistMove
 {
-    public override bool MoveEnabled => !HeroController.instance.cState.spellQuake;
+    public override bool MoveEnabled => HeroController.instance.cState.freezeCharge || !HeroController.instance.cState.spellQuake;
 
     JumpMove jumpMove;
 
@@ -12,7 +12,15 @@ public class JumpToPlayerMove : CrystalMachinistMove
         jumpMove = GetComponent<JumpMove>();
     }
 
-    public override IEnumerator DoMove() => jumpMove.JumpToPosition(Player.Player1.transform.position.x);
+    public override IEnumerator DoMove()
+    {
+        yield return jumpMove.JumpToPosition(Player.Player1.transform.position.x);
+
+        if (jumpMove.LastJumpInterrupted)
+        {
+            yield return jumpMove.DefaultEmergencyJump();
+        }
+    }
 
     public override void OnStun()
     {
