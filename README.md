@@ -1,4 +1,4 @@
-![Crystal Machinist Title](https://github.com/nickc01/Crystal-Machinist/assets/12601671/39adc8a4-3a6f-4797-83e0-2353307ac44d)
+![Crystal Machinist Title](https://github.com/nickc01/Crystal-Machinist/assets/12601671/0817a306-e9ee-4121-9dca-74e8ead86691)
 
 
 Crystal Machinist is a hollow knight mod that takes the existing Enraged Guardian fight and makes it far more interesting and difficult. 
