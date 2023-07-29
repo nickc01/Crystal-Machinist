@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Crystal Machinist Registry
   m_EditorClassIdentifier: 
   modTypeName: CrystalMachinistMod
-  modAssemblyName: Assembly-CSharp
+  __modAssemblyName: Assembly-CSharp
   features:
   - {fileID: 11400000, guid: af9bc6d6ce153274b8fa3b3e2648ccfa, type: 2}
+  - {fileID: 11400000, guid: 9bed76977cc8c01489d3afbf454fac47, type: 2}
   featureTypeNames:
   - WeaverCore.SceneRecord
+  - WeaverCore.Settings.GlobalSettings
   featureAssemblyNames:
+  - WeaverCore
   - WeaverCore

@@ -54,6 +54,12 @@ public class Stomper : MonoBehaviour
     [SerializeField]
     float smashIdleTime = 0.2f;
 
+    [SerializeField]
+    AudioClip heightReorientSound;
+
+    [SerializeField]
+    float heightReorientVolume = 1f / 5f;
+
     [field: SerializeField]
     public float DamageHeightThreshold { get; set; } = 14;
 
@@ -107,8 +113,11 @@ public class Stomper : MonoBehaviour
 
     float maximumHeight;
     float maximumSpriteHeight;
+    float origMaximumHeight;
 
     public float RetractTime { get; private set; } = 0f;
+
+    public bool Reorienting { get; private set; } = false;
 
     private bool Blurry
     {
@@ -150,6 +159,7 @@ public class Stomper : MonoBehaviour
         //mainRenderer.GetPropertyBlock(blurBlock);
 
         maximumHeight = transform.position.y;
+        origMaximumHeight = maximumHeight;
         rb = GetComponent<Rigidbody2D>();
         mainRenderer = GetComponent<SpriteRenderer>();
         body = transform.Find("Body").GetComponent<SpriteRenderer>();
@@ -202,7 +212,103 @@ public class Stomper : MonoBehaviour
         Smash();
     }*/
 
-    public bool Smash()
+    public void MoveToHeight(float newHeight)
+    {
+        if (smashRoutine != null)
+        {
+            StopCoroutine(smashRoutine);
+        }
+        var oldHeight = maximumHeight;
+        maximumHeight = newHeight;
+        rb.velocity = default;
+        rb.isKinematic = false;
+        crystalDestroyer.SetActive(true);
+        CurrentState = State.PreSmashing;
+        Reorienting = true;
+        smashRoutine = StartCoroutine(MoveToHeightRoutine(oldHeight, newHeight));
+    }
+
+    IEnumerator MoveToHeightRoutine(float oldHeight, float newHeight)
+    {
+        Blurry = false;
+        if (heightToReach == null)
+        {
+            heightToReach = transform.position.y;
+
+            if (heightToReach.Value > oldHeight)
+            {
+                heightToReach = oldHeight;
+            }
+        }
+
+        var prepareDestHeight = Mathf.Min(heightToReach.Value, transform.position.y) + prepareHeight;
+
+        float upVelocity = 0f;
+
+        rb.isKinematic = true;
+        rb.velocity = default;
+
+        while (transform.position.y < prepareDestHeight)
+        {
+            upVelocity += prepareAcceleration * Time.deltaTime;
+            transform.SetPositionY(transform.position.y + (upVelocity * Time.deltaTime));
+            mainRenderer.size = new Vector2(mainRenderer.size.x, maximumSpriteHeight - transform.position.y);
+            yield return null;
+        }
+        Blurry = true;
+        float currentVelocity = 0f;
+
+        rb.velocity = default;
+        rb.isKinematic = false;
+
+        float startTime = Time.time;
+
+        while (transform.position.y > newHeight)
+        {
+            currentVelocity += smashAcceleration * Time.deltaTime;
+            rb.velocity = new Vector2(0f, -currentVelocity);
+            mainRenderer.size = new Vector2(mainRenderer.size.x, maximumSpriteHeight - transform.position.y);
+            if (Time.time >= startTime + 0.15f)
+            {
+                CurrentState = State.Smashing;
+            }
+            yield return null;
+        }
+
+        Blurry = false;
+
+        smashParticles.Play();
+
+        if (heightReorientSound != null)
+        {
+            WeaverAudio.PlayAtPoint(heightReorientSound, transform.position, heightReorientVolume);
+        }
+
+        RetractTime = 0f;
+
+        rb.isKinematic = true;
+        rb.velocity = default;
+
+        transform.SetPositionY(newHeight);
+        mainRenderer.size = new Vector2(mainRenderer.size.x, maximumSpriteHeight - transform.position.y);
+        CurrentState = State.Idle;
+        heightToReach = null;
+        smashRoutine = null;
+
+        rb.velocity = default;
+        rb.isKinematic = true;
+        crystalDestroyer.SetActive(false);
+
+        Reorienting = false;
+    }
+
+    public void ResetMaxHeight()
+    {
+        maximumHeight = origMaximumHeight;
+        heightToReach = maximumHeight;
+    }
+
+    public bool Smash(float smashSpeedMultiplier = 1f, float raiseTimeMultiplier = 1f)
     {
         if (CurrentState == State.Smashing || CurrentState == State.PreSmashing)
         {
@@ -217,13 +323,14 @@ public class Stomper : MonoBehaviour
         rb.isKinematic = false;
         crystalDestroyer.SetActive(true);
         CurrentState = State.PreSmashing;
-        smashRoutine = StartCoroutine(SmashRoutine());
+        smashRoutine = StartCoroutine(SmashRoutine(smashSpeedMultiplier, raiseTimeMultiplier));
 
         return true;
     }
 
-    IEnumerator SmashRoutine()
+    IEnumerator SmashRoutine(float smashSpeedMultiplier = 1f, float raiseTimeMultiplier = 1f)
     {
+        yield return null;
         Blurry = false;
         //mainRenderer.sprite = defaultFrame;
         //Debug.Log("STARTING SMASH");
@@ -250,7 +357,7 @@ public class Stomper : MonoBehaviour
         //Debug.Log("RISING");
         while (transform.position.y < prepareDestHeight)
         {
-            upVelocity += prepareAcceleration * Time.deltaTime;
+            upVelocity += prepareAcceleration * raiseTimeMultiplier * Time.deltaTime;
             transform.SetPositionY(transform.position.y + (upVelocity * Time.deltaTime));
             mainRenderer.size = new Vector2(mainRenderer.size.x, maximumSpriteHeight - transform.position.y);
             yield return null;
@@ -272,7 +379,7 @@ public class Stomper : MonoBehaviour
 
         while (rb.velocity.y > -minimumResponseThreshold)
         {
-            currentVelocity += smashAcceleration * Time.deltaTime;
+            currentVelocity += smashAcceleration * smashSpeedMultiplier * Time.deltaTime;
             rb.velocity = new Vector2(0f, -currentVelocity);
             mainRenderer.size = new Vector2(mainRenderer.size.x, maximumSpriteHeight - transform.position.y);
             if (Time.time >= startTime + 0.15f)
@@ -307,7 +414,7 @@ public class Stomper : MonoBehaviour
             }
 
             float oldVelocity = currentVelocity;
-            currentVelocity += smashAcceleration * Time.deltaTime;
+            currentVelocity += smashAcceleration * smashSpeedMultiplier * Time.deltaTime;
             if (currentVelocity > smashSpeed)
             {
                 currentVelocity = smashSpeed;

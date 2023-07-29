@@ -53,6 +53,9 @@ public class CrystalMachinist : Boss
     [SerializeField]
     float secondStunMilestone = 1f - 0.65f;
 
+    [field: SerializeField]
+    public CrystalMachinistGlobalSettings Settings { get; private set; }
+
     [Header("Stunning Sequence")]
     [SerializeField]
     Sprite knockoutSprite;
@@ -127,7 +130,7 @@ public class CrystalMachinist : Boss
     [Space]
     [Header("Hard Mode")]
     [SerializeField]
-    bool forceHardMode = false;
+    public bool forceHardMode = false;
 
     [SerializeField]
     float hardModeGravityScale = 4.0f;
@@ -594,8 +597,6 @@ public class CrystalMachinist : Boss
         DoStompersNext = true;
 
         StartBoundRoutine(MainRoutine(true));
-
-
     }
 
     static float RandomCoordValue(float range)
