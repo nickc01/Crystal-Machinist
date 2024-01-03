@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.XR;
 using WeaverCore;
+using WeaverCore.Assets.Components;
 using WeaverCore.Utilities;
 
 public class RoarMove : CrystalMachinistMove
