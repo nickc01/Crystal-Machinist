@@ -12,7 +12,7 @@ public class CrystalMachinistMod : WeaverMod
 
     public override string GetVersion()
     {
-        return "2.0.0.0";
+        return "2.0.1.0";
     }
 
     public override void Initialize()
